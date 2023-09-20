@@ -85,9 +85,16 @@
               </tr>
 
               <tr class="align-bottom">
-                <td>
-                  Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
-                <td>/movies/genre/:genreName</td>
+                <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
+                <td>/movies/:title</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object holding data about the sindle movie</td>
+              </tr>
+
+              <tr class="align-bottom">
+                <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+                <td>/movies/genre/:Name</td>
                 <td>GET</td>
                 <td>None</td>
                 <td>A JSON object holding data about the genre</td>
@@ -95,7 +102,7 @@
 
               <tr>
                 <td>Return data about a director (bio, birth year, death year) by name.</td>
-                <td>/movies/directors/:directorName</td>
+                <td>/movies/directors/:Name</td>
                 <td class="align-top">GET</td>
                 <td>None</td>
                 <td>A JSON object holding data about the director.</td>
@@ -107,8 +114,10 @@
                 <td>POST</td>
                 <td>
                   {
-                    “Name”: “value”,
-                    “Favorite”: “value”
+                    "Username": "String Value", 
+                    "Password": "String Value",
+                    "Email": "String Value",
+                    "Birthday": yyyy-mm-dd
                   }
                 </td>
                 <td>
@@ -118,12 +127,14 @@
 
               <tr>
                 <td>Allow users to update their user info (username).</td>
-                <td>/users/:id</td>
+                <td>/users/:Username</td>
                 <td>POST</td>
                 <td>
                   {
-                    "Name": "value”,
-                    “Favorite":"value"    
+                    "Username": "String Value", 
+                    "Password": "String Value",
+                    "Email": "String Value",
+                    "Birthday": yyyy-mm-dd    
                   }
                 </td>
                 <td>A user object holding the updated info.</td>
@@ -131,7 +142,7 @@
 
               <tr>
                 <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added).</td>
-                <td>/users/:id/:movieTitle</td>
+                <td>/users/:Username/movies/:MovieID</td>
                 <td>POST</td>
                 <td>None</td>
                <td>A confirmation message that the movie was added to their favorite list.</td>
@@ -139,7 +150,7 @@
               
               <tr>
                 <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed)</td>
-                <td>/users/:id/:movieTitle</td>
+                <td>/users/:Username/movies/:MovieID</td>
                 <td>DELETE</td>
                 <td>None</td>
                 <td>A confirmation message that the movie was deleted from their favorite list.</td>
@@ -147,7 +158,7 @@
 
               <tr>
                 <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later).</td>
-                <td>/users/:id</td>
+                <td>/users/:Username</td>
                 <td>DELETE</td>
                 <td>None</td>
                 <td>A confirmation message that the user has been removed.</td>
