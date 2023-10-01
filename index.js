@@ -10,28 +10,58 @@ const Models = require("./models.js");
 const Movies = Models.Movie;
 const Users = Models.User;
 
+// Require Passport
 let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
 const passport = require('passport');
 require('./passport');
 
-mongoose.connect("mongodb://localhost:27017/myFlixDB", 
-{ 
+// Implementing Security to the APP
+// --------------------------------
+
+// Using CORS (Default allow from all origins)
+const cors = require('cors');
+app.use(cors());
+
+// Uncomment following code to either allow only certains orings or return an error if domain is not on the list.  
+// let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     if(!origin) return callback(null, true);
+//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+//       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+//       return callback(new Error(message ), false);
+//     }
+//     return callback(null, true);
+//   }
+// }));
+
+// Using Server-Side Input Validator. Preventing input attcks to the server
+const { check, validationResult } = require('express-validator');
+
+// ------------------------------
+// End of Security Implementation
+
+
+// Mongo DB Connection
+// -------------------
+mongoose.connect("mongodb://localhost:27017/myFlixDB",
+  {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-});
+  });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // READ (GET)
-//default text response when at /
+// Default text response when at "/"
 app.get("/", (req, res) => {
   res.send("Welcome to MYFLIX!");
 });
 
 // READ (GET)
-// Return a list of ALL users (to test)
-app.get("/users", passport.authenticate('jwt', { session: false}), async (req, res) => {
+// Return a list of ALL users (for testing)
+app.get("/users", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -43,7 +73,7 @@ app.get("/users", passport.authenticate('jwt', { session: false}), async (req, r
 });
 
 // Return a list of all movies.
-app.get("/movies", passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get("/movies", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -55,7 +85,7 @@ app.get("/movies", passport.authenticate('jwt', { session: false}), async (req, 
 });
 
 // Return data (desciption, genre, director, image URL, whether it's featured or not) about a single movie by tittle to the user.
-app.get("/movies/:Title", passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get("/movies/:Title", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       return res.status(200).json(movie);
@@ -67,7 +97,7 @@ app.get("/movies/:Title", passport.authenticate('jwt', { session: false}), async
 });
 
 // Return data about a genre (description) by name/title(e.g., "Thriller")
-app.get("/movies/genre/:Name", passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get("/movies/genre/:Name", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.Name })
     .then((movie) => {
       if (movie) {
@@ -82,7 +112,7 @@ app.get("/movies/genre/:Name", passport.authenticate('jwt', { session: false}), 
 });
 
 // Return data about a director (bio, birth year, death year) by name
-app.get("/movies/directors/:Name", passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get("/movies/directors/:Name", passport.authenticate('jwt', { session: false }), async (req, res) => {
   Movies.findOne({ "Director.Name": req.params.Name })
     .then((movie) => {
       if (movie) {
@@ -98,6 +128,28 @@ app.get("/movies/directors/:Name", passport.authenticate('jwt', { session: false
 // CREATE (POST)
 // Allow new user to register
 app.post("/users", async (req, res) => {
+  // Validation logic here for request
+  // -------------------------------------------------------------------
+  // You can either use a chain of methos like .not().isEmpty(), which
+  // means "opposite of isEmpy" in plain english "is not empty" or use
+  // .isLength({min: 5}) which menas: minimum value of 5 are allowed.
+  [
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric - not allowed').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ], async (req, res) => {
+    // Check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+  }
+  // --------------------------------------------------------------------
+
+  // Hash any password entered by the user when registering before storing it in the MongoDB database
+  let hashPassword = Users.hashPassword(req.body.params);
   await Users.findOne({ Username: req.body.Username })
     .then((users) => {
       if (users) {
@@ -105,7 +157,7 @@ app.post("/users", async (req, res) => {
       } else {
         Users.create({
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashPassword,   // Hashed password
           Email: req.body.Email,
           Birthday: req.body.Birthday,
         })
@@ -126,10 +178,9 @@ app.post("/users", async (req, res) => {
 
 // UPDATE (UPDATE)
 // Allow users to update their user info (username, password, email, date of birth)
-app.put("/users/:Username", passport.authenticate('jwt', { session: false}), async (req, res) => {
-
+app.put("/users/:Username", passport.authenticate('jwt', { session: false }), async (req, res) => {
   //Condition to Check Added Here
-  if(req.user.Username !== req.params.Username) {
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
   // Condition Ends
@@ -156,10 +207,9 @@ app.put("/users/:Username", passport.authenticate('jwt', { session: false}), asy
 
 // CREATE (POST)
 // Allow user to add a movie to their list of favorites
-app.post("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { session: false}), async (req, res) => {
-
-   //Condition to Check Added Here
-   if(req.user.Username !== req.params.Username) {
+app.post("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { session: false }), async (req, res) => {
+  //Condition to Check Added Here
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
   // Condition Ends
@@ -179,10 +229,9 @@ app.post("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { sess
 
 // DELETE (DELETE)
 // Allow users to delete movies from their favorite list
-app.delete("/users/:Username/movies/:MovieID",  passport.authenticate('jwt', { session: false}), async (req, res) => {
-
-   //Condition to Check Added Here
-   if(req.user.Username !== req.params.Username) {
+app.delete("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { session: false }), async (req, res) => {
+  //Condition to Check Added Here
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
   // Condition Ends  
@@ -207,13 +256,11 @@ app.delete("/users/:Username/movies/:MovieID",  passport.authenticate('jwt', { s
 
 // DELETE (DELETE)
 // Allow users to deregister
-app.delete("/users/:Username",  passport.authenticate('jwt', { session: false}), async (req, res) => {
-
-   //Condition to Check Added Here
-   if(req.user.Username !== req.params.Username) {
+app.delete("/users/:Username", passport.authenticate('jwt', { session: false }), async (req, res) => {
+  //Condition to Check Added Here
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
-
   await Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
@@ -228,4 +275,9 @@ app.delete("/users/:Username",  passport.authenticate('jwt', { session: false}),
     });
 });
 
-app.listen(8080, () => console.log("Your app is listening on port 8080."));
+//app.listen(8080, () => console.log("Your app is listening on port 8080.")); 
+
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
+});
