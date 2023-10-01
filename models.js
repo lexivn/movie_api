@@ -1,5 +1,7 @@
 // Importing the package mongoose.
 const mongoose = require('mongoose');
+// Implementing Hashing to the user's password
+const bcrypt = require('bcrypt');
 
 // Defining the Schema for documents in the "Movies"
 let movieSchema = mongoose.Schema({
@@ -26,6 +28,14 @@ let userSchema = mongoose.Schema({
     Birthday: Date,
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
 });
+// Function to Hash the submitted passwords
+userSchema.statics.hashPassword = (password) => {
+    return bcrypt.hashSync(password, 10);
+};
+// Function to Validate the submitted hashed passwords with hashed passwords stored in database
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.Password);
+}
 
 // Defining the Schema for documents in the "Genres"
 // let genreSchema = mongoose.Schema({
@@ -33,7 +43,7 @@ let userSchema = mongoose.Schema({
 //     Desciption: {type: String, required: true}
 // });
 
-// Defining the Schema for the document in the "Directors
+// Defining the Schema for the documents in the "Directors
 // let directorSchema = mongoose.Schema({
 //     Name: {type: String, required: true},
 //     Bio: {type: String},
@@ -47,7 +57,7 @@ let User = mongoose.model('User', userSchema);
 //let Genre = mongoose.model('Genre', genreSchema );
 //let Director = mongoose.model('Director', directorSchema);
 
-// Exporting the Modles
+// Exporting the Models
 module.exports.Movie = Movie;
 module.exports.User = User;
 //module.exports.Genre = Genre;
