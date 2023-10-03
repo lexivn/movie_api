@@ -158,7 +158,7 @@ app.post("/users", async (req, res) => {
   // --------------------------------------------------------------------
 
   // Hash any password entered by the user when registering before storing it in the MongoDB database
-  let hashPassword = Users.hashPassword(req.body.params);
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username })
     .then((users) => {
       if (users) {
@@ -166,7 +166,7 @@ app.post("/users", async (req, res) => {
       } else {
         Users.create({
           Username: req.body.Username,
-          Password: hashPassword,   // Hashed password
+          Password: hashedPassword,   // Hashed password
           Email: req.body.Email,
           Birthday: req.body.Birthday,
         })
