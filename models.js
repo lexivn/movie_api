@@ -35,7 +35,7 @@ userSchema.statics.hashPassword = (password) => {
 // Function to Validate the submitted hashed passwords with hashed passwords stored in database
 userSchema.methods.validatePassword = function(password) {
     return bcrypt.compareSync(password, this.Password);
-}
+};
 
 // Defining the Schema for documents in the "Genres"
 // let genreSchema = mongoose.Schema({
