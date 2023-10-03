@@ -44,11 +44,20 @@ const { check, validationResult } = require('express-validator');
 
 // Mongo DB Connection
 // -------------------
-mongoose.connect("mongodb://localhost:27017/myFlixDB",
+// Local DB for testing
+// mongoose.connect("mongodb://localhost:27017/myFlixDB",
+//   {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
+
+// Cloud DB (Atlas MongoDB)
+mongoose.connect( process.env.CONNECTION_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
