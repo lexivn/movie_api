@@ -52,7 +52,7 @@ const { check, validationResult } = require('express-validator');
 //   });
 
 // Cloud DB (Atlas MongoDB)
-mongoose.connect( process.env.CONNECTION_URI,
+mongoose.connect(process.env.CONNECTION_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -136,8 +136,8 @@ app.get("/movies/directors/:Name", passport.authenticate('jwt', { session: false
 
 // CREATE (POST)
 // Allow new user to register
-app.post("/users", async (req, res) => {
-  // Validation logic here for request
+app.post("/users",
+  // Validation logic for new user request
   // -------------------------------------------------------------------
   // You can either use a chain of methos like .not().isEmpty(), which
   // means "opposite of isEmpy" in plain english "is not empty" or use
@@ -154,35 +154,36 @@ app.post("/users", async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-  }
+  
   // --------------------------------------------------------------------
 
   // Hash any password entered by the user when registering before storing it in the MongoDB database
   let hashedPassword = Users.hashPassword(req.body.Password);
-  await Users.findOne({ Username: req.body.Username })
-    .then((users) => {
-      if (users) {
-        return res.status(400).send(req.body.Username + " already exist");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: hashedPassword,   // Hashed password
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
+await Users.findOne({ Username: req.body.Username })
+  .then((user) => {
+    if (user) {
+      // If the user is found, send a response that it already exist
+      return res.status(400).send(req.body.Username + " already exist");
+    } else {
+      Users.create({
+        Username: req.body.Username,
+        Password: hashedPassword,   // Hashed password
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      })
+        .then((user) => {
+          res.status(201).json(user);
         })
-          .then((users) => {
-            res.status(201).json(users);
-          })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send("Error: " + error);
-          });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send("Error: " + error);
+        });
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+    res.status(500).send("Error: " + error);
+  });
 });
 
 // UPDATE (UPDATE)
