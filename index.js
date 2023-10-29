@@ -11,9 +11,9 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 // Require Passport
-let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
-const passport = require('passport');
-require('./passport');
+// let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
+// const passport = require('passport');
+// require('./passport');
 
 // Implementing Security to the APP
 // --------------------------------
@@ -41,6 +41,10 @@ const { check, validationResult } = require('express-validator');
 // ------------------------------
 // End of Security Implementation
 
+// Require Passport
+let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
+const passport = require('passport');
+require('./passport');
 
 // Mongo DB Connection
 // -------------------
