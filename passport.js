@@ -7,9 +7,11 @@ let Users = Models.User,
 JWTStrategy = passportJWT.Strategy,
 ExtractJWT = passportJWT.ExtractJwt;
 
+// Defining the Passport Strategy: Local Strategy
 passport.use(
     new LocalStrategy(
         {
+          // Defininf the parameters the server will receive when client submit the form
             usernameField: 'Username',
             passwordField: 'Password',
         },
@@ -41,6 +43,7 @@ passport.use(
     )
 );
 
+// Strategy that allows only requests with valid tokens to access some endpoints
 passport.use( new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'telefono'

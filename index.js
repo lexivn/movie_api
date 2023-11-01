@@ -41,9 +41,9 @@ const { check, validationResult } = require('express-validator');
 // End of Security Implementation
 
 // Require Passport
-let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
-const passport = require('passport');
-require('./passport');
+// let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
+// const passport = require('passport');
+// require('./passport');
 
 // Mongo DB Connection
 // -------------------
@@ -64,6 +64,11 @@ mongoose.connect(process.env.CONNECTION_URI,
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Require Passport
+let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
+const passport = require('passport');
+require('./passport');
 
 // READ (GET)
 // Default text response when at "/"
