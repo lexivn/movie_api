@@ -12,8 +12,8 @@ passport.use(
     new LocalStrategy(
         {
           // Defininf the parameters the server will receive when client submit the form
-            usernameField: 'Username',
-            passwordField: 'Password',
+            usernameField: 'username',
+            passwordField: 'password',
         },
         async (username, password, callback) => {
             console.log(`${username} ${password}`);
