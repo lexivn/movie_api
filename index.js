@@ -36,7 +36,7 @@ app.use(cors());
 // }));
 
 // Using Server-Side Input Validator. Preventing input attcks to the server
-const { check, validationResult } = require('express-validator');
+//const { check, validationResult } = require('express-validator');
 // ------------------------------
 // End of Security Implementation
 
@@ -64,6 +64,7 @@ mongoose.connect(process.env.CONNECTION_URI,
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+const { check, validationResult } = require('express-validator');
 
 // Require Passport
 let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
