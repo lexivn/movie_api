@@ -250,15 +250,15 @@ app.post("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { sess
 
 // nEw
 // Allow users to update their user info (username, password, email, date of birth)
-app.put("/movie/setFavorite/:Username/:flag", passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put("/movie/setFavorite/:movieId/:flag", passport.authenticate('jwt', { session: false }), async (req, res) => {
   //Condition to Check Added Here
   if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
   
   // Condition Ends
-  await Users.findOneAndUpdate(
-    { Username: req.params.Username },
+  await Movies.findOneAndUpdate(
+    { _id: req.params.movieId },
     {
       $set: {
         Feature: req.params.flag      }
