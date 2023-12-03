@@ -19,21 +19,22 @@ const Users = Models.User;
 // --------------------------------
 
 // Using CORS (Default allow from all origins)
-const cors = require('cors');
-app.use(cors());
+// const cors = require('cors');
+// app.use(cors());
 
-// Uncomment following code to either allow only certains orings or return an error if domain is not on the list.  
-// let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
-// app.use(cors({
-//   origin: (origin, callback) => {
-//     if(!origin) return callback(null, true);
-//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-//       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-//       return callback(new Error(message ), false);
-//     }
-//     return callback(null, true);
-//   }
-// }));
+// Uncomment following code to either allow only certains orings or return an error if domain is not on the list
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080'];
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+        let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    }
+  }));
 
 // Using Server-Side Input Validator. Preventing input attcks to the server
 const { check, validationResult } = require('express-validator');
@@ -74,7 +75,7 @@ require('./passport');
 // READ (GET)
 // Default text response when at "/"
 app.get("/", (req, res) => {
-  res.send("Welcome to MYFLIX!");
+  res.send("Welcome to MobiFLIX!");
 });
 
 // READ (GET)
@@ -92,7 +93,7 @@ app.get("/users", passport.authenticate('jwt', { session: false }), async (req, 
 
 // Return a list of all movies.
 app.get("/movies", passport.authenticate('jwt', { session: false }), async (req, res) => {
-//  app.get("/movies", async (req, res) => {
+  //  app.get("/movies", async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -164,37 +165,37 @@ app.post("/users",
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-  
-  // --------------------------------------------------------------------
 
-  // Hash any password entered by the user when registering before storing it in the MongoDB database
-  let hashedPassword = Users.hashPassword(req.body.Password);
-await Users.findOne({ Username: req.body.Username })
-  .then((user) => {
-    if (user) {
-      // If the user is found, send a response that it already exist
-      return res.status(400).send(req.body.Username + " already exist");
-    } else {
-      Users.create({
-        Username: req.body.Username,
-        Password: hashedPassword,   // Hashed password
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
+    // --------------------------------------------------------------------
+
+    // Hash any password entered by the user when registering before storing it in the MongoDB database
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    await Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          // If the user is found, send a response that it already exist
+          return res.status(400).send(req.body.Username + " already exist");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,   // Hashed password
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+            .then((user) => {
+              res.status(201).json(user);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send("Error: " + error);
+            });
+        }
       })
-        .then((user) => {
-          res.status(201).json(user);
-        })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send("Error: " + error);
-        });
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-    res.status(500).send("Error: " + error);
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
   });
-});
 
 // UPDATE (UPDATE)
 // Allow users to update their user info (username, password, email, date of birth)
@@ -252,7 +253,7 @@ app.post("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { sess
 // Allow users to update their user info (username, password, email, date of birth)
 // app.put("/movie/setFavorite/:movieId/:flag", passport.authenticate('jwt', { session: false }), async (req, res) => {
 //Condition to Check Added Here
-  
+
 //   await Movies.findOneAndUpdate(
 //     { _id: req.params.movieId },
 //     {
