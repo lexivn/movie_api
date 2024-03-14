@@ -56,7 +56,13 @@ const { check, validationResult } = require('express-validator');
 //   });
 
 // Cloud DB (Atlas MongoDB)
-mongoose.connect(process.env.CONNECTION_URI,
+// mongoose.connect(process.env.CONNECTION_URI,
+//   {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
+
+mongoose.connect("mongodb+srv://myFlixDBAdmin:r7xgOwLWKdUgTTqt@myflixdb.wpbek8j.mongodb.net/myFlixDB",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -154,6 +160,8 @@ app.post("/users",
   // means "opposite of isEmpy" in plain english "is not empty" or use
   // .isLength({min: 5}) which menas: minimum value of 5 are allowed.
   [
+    check('Name', 'Name is required').not().isEmpty(),
+    check('Lastname', 'Lastname is required').not().isEmpty(),
     check('Username', 'Username is required').isLength({ min: 5 }),
     check('Username', 'Username contains non alphanumeric - not allowed').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
@@ -177,6 +185,8 @@ app.post("/users",
           return res.status(400).send(req.body.Username + " already exist");
         } else {
           Users.create({
+            Name: req.body.Name,
+            Lastname: req.body.Lastname,
             Username: req.body.Username,
             Password: hashedPassword,   // Hashed password
             Email: req.body.Email,
@@ -210,6 +220,8 @@ app.put("/users/:Username", passport.authenticate('jwt', { session: false }), as
     { Username: req.params.Username },
     {
       $set: {
+        Name: req.body.Name,
+        Lastname: req.body.Lastname,
         Username: req.body.Username,
         Password: hashedPassword,
         Email: req.body.Email,
