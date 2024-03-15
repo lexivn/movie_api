@@ -56,17 +56,17 @@ const { check, validationResult } = require('express-validator');
 //   });
 
 // Cloud DB (Atlas MongoDB)
-// mongoose.connect(process.env.CONNECTION_URI,
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   });
-
-mongoose.connect("mongodb+srv://myFlixDBAdmin:r7xgOwLWKdUgTTqt@myflixdb.wpbek8j.mongodb.net/myFlixDB",
+mongoose.connect(process.env.CONNECTION_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+
+// mongoose.connect("mongodb+srv://myFlixDBAdmin:r7xgOwLWKdUgTTqt@myflixdb.wpbek8j.mongodb.net/myFlixDB",
+//   {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
 
 
 app.use(bodyParser.json());
