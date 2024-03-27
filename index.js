@@ -25,16 +25,16 @@ const Users = Models.User;
 // Uncomment following code to either allow only certains orings or return an error if domain is not on the list
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:1234', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080', 'http://localhost:4200'];
-  app.use(cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
-        let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message), false);
     }
-  }));
+    return callback(null, true);
+  }
+}));
 
 // Using Server-Side Input Validator. Preventing input attcks to the server
 const { check, validationResult } = require('express-validator');
