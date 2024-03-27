@@ -22,8 +22,8 @@ let movieSchema = mongoose.Schema({
 
 // Defining the Schema for documents in the "Users"
 let userSchema = mongoose.Schema({
-    Name: {type: String, required: true},
-    Lastname: {type: String, required: true},
+//    Name: {type: String, required: true},
+//    Lastname: {type: String, required: true},
     Username: {type: String, required: true},
     Password: {type: String, required: true},
     Email: {type: String, required: true},
