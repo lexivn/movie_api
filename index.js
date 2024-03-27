@@ -24,7 +24,7 @@ const Users = Models.User;
 
 // Uncomment following code to either allow only certains orings or return an error if domain is not on the list
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:1234', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080'];
+let allowedOrigins = ['http://localhost:1234', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080', 'http://localhost:4200'];
   app.use(cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
