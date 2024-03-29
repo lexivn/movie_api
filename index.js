@@ -332,20 +332,20 @@ app.delete("/users/:Username", passport.authenticate('jwt', { session: false }),
 });
 
 // GET SINGULAR USER INFO
-// app.get("/users/:Username", passport.authenticate('jwt', { session: false }), async (req, res) => {
-//   //Condition to Check Added Here
-//   if (req.user.Username !== req.params.Username) {
-//     return res.status(400).send('Permission denied');
-//   }
-//   await Users.findOne({ Username: req.params.Username })
-//     .then((user) => {
-//       return res.status(200).send(user);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error: " + err);
-//     });
-// });
+app.get("/users/:Username", passport.authenticate('jwt', { session: false }), async (req, res) => {
+  //Condition to Check Added Here
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
+  }
+  await Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      return res.status(200).send(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 //app.listen(8080, () => console.log("Your app is listening on port 8080.")); 
 
