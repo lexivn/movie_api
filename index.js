@@ -185,8 +185,8 @@ app.post("/users",
           return res.status(400).send(req.body.Username + " already exist");
         } else {
           Users.create({
-            Name: req.body.Name,
-            Lastname: req.body.Lastname,
+            // Name: req.body.Name,
+            // Lastname: req.body.Lastname,
             Username: req.body.Username,
             Password: hashedPassword,   // Hashed password
             Email: req.body.Email,
