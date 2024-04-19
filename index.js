@@ -1,3 +1,4 @@
+
 const express = require("express"),
   app = express(),
   bodyParser = require("body-parser"),
@@ -122,7 +123,19 @@ app.get("/movies/:Title", passport.authenticate('jwt', { session: false }), asyn
     });
 });
 
-// Return data about a genre (description) by name/title(e.g., "Thriller")
+
+/**
+ * Handle GET requests to access for a specific genre.
+ *
+ * @function
+ * @name getGenre
+ * @param {Object} req - Express request object with parameter: genreName (genre name).
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - A Promise that res++olves when the genre request process is complete.
+ * @throws {Error} - If there is an unexpected error during the process or if permission is denied.
+ * @returns {Object} reqGenre - The object containing the data for the requested genre.
+ * 
+ */
 app.get("/movies/genre/:Name", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.Name })
     .then((movie) => {
@@ -151,8 +164,18 @@ app.get("/movies/directors/:Name", passport.authenticate('jwt', { session: false
     });
 });
 
-// CREATE (POST)
-// Allow new user to register
+/**
+ * Handle POST requests to create a new user.
+ *
+ * @function
+ * @name createUser
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - A Promise that resolves when the user creation process is complete.
+ * @throws {Error} - If there is an unexpected error during the user creation process.
+ * @returns {Object} newUser - The newly created user object. Sent in the response on success.
+ * 
+ */
 app.post("/users",
   // Validation logic for new user request
   // -------------------------------------------------------------------
@@ -207,8 +230,20 @@ app.post("/users",
       });
   });
 
-// UPDATE (UPDATE)
-// Allow users to update their user info (username, password, email, date of birth)
+
+/**
+ * Handle PUT requests to update user information.
+ *
+ * @function
+ * @name updateUser
+ * @param {Object} req - Express request object with parameters: Username.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - A Promise that resolves when the user update process is complete.
+ * @throws {Error} - If there is an unexpected error during the process or if permission is denied.
+ * @fires {Object} updatedUser - The updated user object sent in the response on success.
+ * @description
+ *   Expects at least one updatable field (username, password, email, birthday) in the request body.
+ */
 app.put("/users/:Username", passport.authenticate('jwt', { session: false }), async (req, res) => {
   //Condition to Check Added Here
   if (req.user.Username !== req.params.Username) {
@@ -283,8 +318,18 @@ app.post("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { sess
 //     })
 // });
 
-// DELETE (DELETE)
-// Allow users to delete movies from their favorite list
+
+/**
+ * Handle DELETE requests to remove a movie from a user's favorites.
+ *
+ * @function
+ * @name removeFavoriteMovie
+ * @param {Object} req - Express request object with parameters: Username,, movieID.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - A Promise that resolves when the movie removal process is complete.
+ * @throws {Error} - If there is an unexpected error during the process or if permission is denied.
+ * @fires {Object} updatedUser - The updated user object (after removing the movie) sent in the response on success.
+ */
 app.delete("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { session: false }), async (req, res) => {
   //Condition to Check Added Here
   if (req.user.Username !== req.params.Username) {
@@ -310,8 +355,17 @@ app.delete("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { se
     });
 });
 
-// DELETE (DELETE)
-// Allow users to deregister
+/**
+ * Handle DELETE requests to delete a user.
+ *
+ * @function
+ * @name deleteUser
+ * @param {Object} req - Express request object with parameters: Username.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - A Promise that resolves when the user deletion process is complete.
+ * @throws {Error} - If there is an unexpected error during the process or if permission is denied.
+ * @fires {string} message - A message indicating the result of the user deletion process.
+ */
 app.delete("/users/:Username", passport.authenticate('jwt', { session: false }), async (req, res) => {
   //Condition to Check Added Here
   if (req.user.Username !== req.params.Username) {
