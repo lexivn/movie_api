@@ -24,7 +24,7 @@ const Users = Models.User;
 
 // Uncomment following code to either allow only certains orings or return an error if domain is not on the list
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080', 'http://localhost:4200', 'https://voluble-bublanina-f362f9.netlify.app'];
   app.use(cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
@@ -221,8 +221,8 @@ app.post("/users",
   // means "opposite of isEmpy" in plain english "is not empty" or use
   // .isLength({min: 5}) which menas: minimum value of 5 are allowed.
   [
-    check('Name', 'Name is required').not().isEmpty(),
-    check('Lastname', 'Lastname is required').not().isEmpty(),
+    // check('Name', 'Name is required').not().isEmpty(),
+    // check('Lastname', 'Lastname is required').not().isEmpty(),
     check('Username', 'Username is required').isLength({ min: 5 }),
     check('Username', 'Username contains non alphanumeric - not allowed').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
@@ -246,8 +246,8 @@ app.post("/users",
           return res.status(400).send(req.body.Username + " already exist");
         } else {
           Users.create({
-            Name: req.body.Name,
-            Lastname: req.body.Lastname,
+            // Name: req.body.Name,
+            // Lastname: req.body.Lastname,
             Username: req.body.Username,
             Password: hashedPassword,   // Hashed password
             Email: req.body.Email,
@@ -294,8 +294,8 @@ app.put("/users/:Username", passport.authenticate('jwt', { session: false }), as
     { Username: req.params.Username },
     {
       $set: {
-        Name: req.body.Name,
-        Lastname: req.body.Lastname,
+        // Name: req.body.Name,
+        // Lastname: req.body.Lastname,
         Username: req.body.Username,
         Password: hashedPassword,
         Email: req.body.Email,
