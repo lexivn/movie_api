@@ -82,7 +82,7 @@ app.get("/", (req, res) => {
 
 
 /**
- * Handle GET requesto to access the list of user
+ * Handle GET requesto to access the list of users.
  * @name getUsers
  * @param {Object} req - Express request object.
  * @param {Object} res - xpress response object.
@@ -268,7 +268,7 @@ app.post("/users",
       });
   });
 
-// UPDATE (UPDATE)
+
 // Allow users to update their user info (username, password, email, date of birth)
 /**
  * Handle PUT requests to update user information.
