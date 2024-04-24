@@ -42,6 +42,231 @@
 
 
 
+    <section>
+        <article><h1>Movie API Documentation</h1>
+<p>This API provides information about movies, genres, and directors. Users can interact with the API to retrieve details about movies, genres, directors, create new users, and manage their favorite movies.</p>
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#endpoints">Endpoints</a>
+<ul>
+<li><a href="#1-get-all-movies">1. Get All Movies</a></li>
+<li><a href="#2-get-movie-by-id">2. Get Movie by ID</a></li>
+<li><a href="#3-get-genre-description">3. Get Genre Description</a></li>
+<li><a href="#4-get-director-by-name">4. Get Director by Name</a></li>
+<li><a href="#5-create-new-user">5. Create New User</a></li>
+<li><a href="#6-update-user-details">6. Update User Details</a></li>
+<li><a href="#7-add-movie-to-users-favorites">7. Add Movie to User's Favorites</a></li>
+<li><a href="#8-remove-movie-from-users-favorites">8. Remove Movie from User's Favorites</a></li>
+<li><a href="#9-delete-user">9. Delete User</a></li>
+</ul>
+</li>
+</ul>
+<h2>Endpoints</h2>
+<h3>1. Get All Movies</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>GET</code></li>
+<li>URL: <code>/movies</code></li>
+<li>Request Body: None</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: A JSON object containing data on all movies.</li>
+</ul>
+</li>
+</ul>
+<h3>2. Get Movie by ID</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>GET</code></li>
+<li>URL: <code>/movies/[title]</code></li>
+<li>Request Body: None</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: A JSON object containing data about a specific movie, including title, description, director details, genre with description, release date, image URL, and featured status.</li>
+</ul>
+</li>
+</ul>
+<h3>3. Get Genre Description</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>GET</code></li>
+<li>URL: <code>/movies/genre/[name]</code></li>
+<li>Request Body: None</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: A JSON object containing the description of a genre.</li>
+</ul>
+</li>
+</ul>
+<h3>4. Get Director by Name</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>GET</code></li>
+<li>URL: <code>/movies/director/[name]</code></li>
+<li>Request Body: None</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: A JSON object containing details about a director, including name, bio, birth date, and death date.</li>
+</ul>
+</li>
+</ul>
+<h3>5. Create New User</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>POST</code></li>
+<li>URL: <code>/users</code></li>
+<li>Request Body Format: JSON<pre class="prettyprint source lang-json"><code>{
+  &quot;Username&quot;: &quot;AlexSoto&quot;,
+  &quot;Password&quot;: &quot;al3x5oto123*&quot;,
+  &quot;Email&quot;: &quot;asoto@fakemail.com&quot;,
+  &quot;Birthday&quot;: &quot;1996-06-09&quot;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: A JSON object with user details, including the new user's ID, version, date, and an empty list of favorite movies.</li>
+</ul>
+</li>
+</ul>
+<h3>6. Update User Details</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>PUT</code></li>
+<li>URL: <code>/users/[name]</code></li>
+<li>Request Body Format: JSON (with at least one updated field)<pre class="prettyprint source lang-json"><code>{
+  &quot;Password&quot;: &quot;123*####&quot;,
+  &quot;Email&quot;: &quot;newmail@nonexist.com&quot;,
+  &quot;Birthday&quot;: &quot;1983-06-09&quot;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: Updated user details.</li>
+</ul>
+</li>
+</ul>
+<h3>7. Add Movie to User's Favorites</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>POST</code></li>
+<li>URL: <code>/users/[name]/movies/[movie._id]</code></li>
+<li>Request Body: None</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: Updated user details.</li>
+</ul>
+</li>
+</ul>
+<h3>8. Remove Movie from User's Favorites</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>DELETE</code></li>
+<li>URL: <code>/users/[name]/movies/[movie._id]</code></li>
+<li>Request Body: None</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: Updated user details.</li>
+</ul>
+</li>
+</ul>
+<h3>9. Delete User</h3>
+<ul>
+<li>
+<p><strong>Request:</strong></p>
+<ul>
+<li>Method: <code>DELETE</code></li>
+<li>URL: <code>/users/[name]</code></li>
+<li>Request Body: None</li>
+</ul>
+</li>
+<li>
+<p><strong>Response:</strong></p>
+<ul>
+<li>Format: JSON</li>
+<li>Description: A message confirming the removal of the user.</li>
+</ul>
+</li>
+</ul>
+<h2>Technologies Used</h2>
+<ul>
+<li>Node.js</li>
+<li>Express.js</li>
+<li>MongoDB with Mongoose</li>
+<li>bcrypt</li>
+<li>body-parser</li>
+<li>cors</li>
+<li>express-validator</li>
+<li>jsonwebtoken</li>
+<li>lodash</li>
+<li>passport</li>
+<li>passport-jwt</li>
+<li>passport-local</li>
+<li>uuid</li>
+</ul>
+<h2>Getting Started</h2>
+<ol>
+<li>Install dependencies: <code>npm install</code></li>
+<li>Start the server: <code>npm start</code> or for development with nodemon: <code>npm run dev</code></li>
+</ol>
+<h2>Author</h2>
+<ul>
+<li><strong>Sean Andrew Stanek</strong></li>
+</ul>
+<h2>License</h2>
+<p>This project is licensed under the ISC License.</p>
+<p>Feel free to explore and interact with the Movie API!</p></article>
+    </section>
+
 
 
 
@@ -56,7 +281,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 24 2024 05:57:58 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 24 2024 06:34:08 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
