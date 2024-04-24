@@ -10,19 +10,34 @@ const Models = require("./models.js");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-// Require Passport
-// let auth = require('./auth.js')(app); //The (app) argument ensures that Express is available in your "auth.js" file as well.
-// const passport = require('passport');
-// require('./passport');
+/** Start - Security Implementation using CORS 
+ * --------------------------------------------
+ * @example
+ * // Default: Allow access from all domains.
+ * const cors = require('cors');
+ * app.use(cors());
+ * @example
+ * // Customized: Allow access from certain domains.
+ * const cors = require('cors');
+    let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080', 'http://localhost:4200'];
+      app.use(cors({
+        origin: (origin, callback) => {
+          if (!origin) return callback(null, true);
+          if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+            let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+            return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    }
+  }));
+ * 
+ */
 
-// Implementing Security to the APP
-// --------------------------------
-
-// Using CORS (Default allow from all origins)
+// Allow access from all domains.
 // const cors = require('cors');
 // app.use(cors());
 
-// Uncomment following code to either allow only certains orings or return an error if domain is not on the list
+// Allow access from certain domains.
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080', 'http://localhost:4200', 'https://voluble-bublanina-f362f9.netlify.app'];
   app.use(cors({
@@ -36,10 +51,8 @@ let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://m
     }
   }));
 
-// Using Server-Side Input Validator. Preventing input attcks to the server
+// Using Server-Side Input Validator. Preventing input attcks to the server.
 const { check, validationResult } = require('express-validator');
-// ------------------------------
-// End of Security Implementation
 
 
 // Mongo DB Connection
@@ -215,7 +228,7 @@ app.get("/movies/directors/:Name", passport.authenticate('jwt', { session: false
  * 
  */
 app.post("/users",
-  // Validation logic for new user request
+  // Validation logic for new user request.
   // -------------------------------------------------------------------
   // You can either use a chain of methos like .not().isEmpty(), which
   // means "opposite of isEmpy" in plain english "is not empty" or use
@@ -237,7 +250,7 @@ app.post("/users",
 
     // --------------------------------------------------------------------
 
-    // Hash any password entered by the user when registering before storing it in the MongoDB database
+    // Hash any password entered by the user when registering before storing it in the MongoDB database.
     let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
       .then((user) => {
@@ -303,7 +316,7 @@ app.put("/users/:Username", passport.authenticate('jwt', { session: false }), as
       }
     },
     { new: true }
-  ) // This line is used to make sure the updated document is returned
+  ) // This line is used to make sure the updated document is returned.
     .then((updatedUser) => {
       res.status(200).json(updatedUser);
     })
