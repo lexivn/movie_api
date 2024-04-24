@@ -163,7 +163,12 @@ This API provides information about movies, genres, and directors. Users can int
 
 ## Author
 
-- **Sean Andrew Stanek**
+- **Alex Soto**
+<div id="badges">
+  <a href="https://www.linkedin.com/in/alexisedson/">
+    <img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge"/>
+  </a>
+</div>
 
 ## License
 
