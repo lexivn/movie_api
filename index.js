@@ -55,27 +55,45 @@ let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://m
 const { check, validationResult } = require('express-validator');
 
 
-// Mongo DB Connection
-// -------------------
-// Local DB for testing
+/** Using Local DataBase
+ *  @example
+ * mongoose.connect("mongodb://localhost:27017/myFlixDB",
+ * {
+ *    useNewUrlParser: true,
+ *    useUnifiedTopology: true,
+ * });
+ */
+
+// Uncomment to work with Local DB.
 // mongoose.connect("mongodb://localhost:27017/myFlixDB",
 //   {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true,
 //   });
 
-// Cloud DB (Atlas MongoDB)
+/**
+ * Using Cloud DataBase
+ * Atlas MondoDB
+ * @param {URL} process.env.CONNECTION_URI - your mongo DB URL
+ * @example  
+ * mongoose.connect(process.env.CONNECTION_URI,
+ * {
+ *    useNewUrlParser: true,
+ *    useUnifiedTopology: true,
+ * }
+ * @example
+ * mongoose.connect("mongodb+srv://myFlixDBAdmin:r7xgOwLWKdUgTTqt@myflixdb.wpbek8j.mongodb.net/myFlixDB",
+ * {
+ *    useNewUrlParser: true,
+ *    useUnifiedTopology: true,
+ * });
+ */
+
 mongoose.connect(process.env.CONNECTION_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-
-// mongoose.connect("mongodb+srv://myFlixDBAdmin:r7xgOwLWKdUgTTqt@myflixdb.wpbek8j.mongodb.net/myFlixDB",
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   });
 
 
 app.use(bodyParser.json());

@@ -98,13 +98,13 @@
 
         
             
-<h4 class="name" id="getUsers"><span class="type-signature"></span>getUsers<span class="type-signature"></span></h4>
+<h4 class="name" id="cors"><span class="type-signature">(constant) </span>cors<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Handle GET requesto to access the list of user
+    Start - Security Implementation using CORS --------------------------------------------
 </div>
 
 
@@ -142,7 +142,87 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line84">line 84</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>// Default: Allow access from all domains.const cors = require('cors');app.use(cors());</code></pre>
+
+    <pre class="prettyprint"><code>// Customized: Allow access from certain domains.const cors = require('cors');
+    let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://mobiflix.netlify.app', 'http://localhost:8080', 'http://localhost:4200'];
+      app.use(cors({
+        origin: (origin, callback) => {
+          if (!origin) return callback(null, true);
+          if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+            let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+            return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    }
+  }));</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="getUsers"><span class="type-signature"></span>getUsers<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Handle GET requesto to access the list of users.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -294,7 +374,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line317">line 317</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line348">line 348</a>
     </li></ul></dd>
     
 
@@ -525,7 +605,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line205">line 205</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line236">line 236</a>
     </li></ul></dd>
     
 
@@ -756,7 +836,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line386">line 386</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line417">line 417</a>
     </li></ul></dd>
     
 
@@ -972,7 +1052,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line106">line 106</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line137">line 137</a>
     </li></ul></dd>
     
 
@@ -1203,7 +1283,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line179">line 179</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line210">line 210</a>
     </li></ul></dd>
     
 
@@ -1434,7 +1514,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line153">line 153</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line184">line 184</a>
     </li></ul></dd>
     
 
@@ -1665,7 +1745,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line130">line 130</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -1896,7 +1976,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line349">line 349</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line380">line 380</a>
     </li></ul></dd>
     
 
@@ -2112,7 +2192,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line273">line 273</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line304">line 304</a>
     </li></ul></dd>
     
 
@@ -2214,13 +2294,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addFavoriteMovie">addFavoriteMovie</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#getAllMovies">getAllMovies</a></li><li><a href="global.html#getDirector">getDirector</a></li><li><a href="global.html#getGenre">getGenre</a></li><li><a href="global.html#getMovie">getMovie</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#removeFavoriteMovie">removeFavoriteMovie</a></li><li><a href="global.html#updateUser">updateUser</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addFavoriteMovie">addFavoriteMovie</a></li><li><a href="global.html#cors">cors</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#getAllMovies">getAllMovies</a></li><li><a href="global.html#getDirector">getDirector</a></li><li><a href="global.html#getGenre">getGenre</a></li><li><a href="global.html#getMovie">getMovie</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#removeFavoriteMovie">removeFavoriteMovie</a></li><li><a href="global.html#updateUser">updateUser</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat Apr 20 2024 19:10:39 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 24 2024 05:57:58 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
