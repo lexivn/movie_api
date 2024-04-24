@@ -34,7 +34,7 @@ This API provides information about movies, genres, and directors. Users can int
 - **Request:**
 
   - Method: `GET`
-  - URL: `/movies/[id]`
+  - URL: `/movies/[title]`
   - Request Body: None
 
 - **Response:**
@@ -74,10 +74,10 @@ This API provides information about movies, genres, and directors. Users can int
   - Request Body Format: JSON
     ```json
     {
-      "username": "AdamSandler",
-      "password": "LunchLady123",
-      "email": "aSandler@fake.co",
-      "birthday": "1923-02-31"
+      "Username": "AlexSoto",
+      "Password": "al3x5oto123*",
+      "Email": "asoto@fakemail.com",
+      "Birthday": "1996-06-09"
     }
     ```
 
@@ -90,12 +90,13 @@ This API provides information about movies, genres, and directors. Users can int
 - **Request:**
 
   - Method: `PUT`
-  - URL: `/users/[id]`
+  - URL: `/users/[name]`
   - Request Body Format: JSON (with at least one updated field)
     ```json
     {
-      "username": "MrNewson",
-      "email": "m.newson@fake.co"
+      "Password": "123*####",
+      "Email": "newmail@nonexist.com",
+      "Birthday": "1983-06-09"
     }
     ```
 
@@ -108,7 +109,7 @@ This API provides information about movies, genres, and directors. Users can int
 - **Request:**
 
   - Method: `POST`
-  - URL: `/users/[id]/movies/[movie_id]`
+  - URL: `/users/[name]/movies/[movie._id]`
   - Request Body: None
 
 - **Response:**
@@ -120,7 +121,7 @@ This API provides information about movies, genres, and directors. Users can int
 - **Request:**
 
   - Method: `DELETE`
-  - URL: `/users/[id]/movies/[movie_id]`
+  - URL: `/users/[name]/movies/[movie._id]`
   - Request Body: None
 
 - **Response:**
@@ -132,7 +133,7 @@ This API provides information about movies, genres, and directors. Users can int
 - **Request:**
 
   - Method: `DELETE`
-  - URL: `/users/[id]`
+  - URL: `/users/[name]`
   - Request Body: None
 
 - **Response:**
